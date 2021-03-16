@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Linq;
 
-namespace CasinoGame
+namespace Casino_Game
 {
     class Program
     {
