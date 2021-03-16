@@ -1,0 +1,16 @@
+C:\Source\Repos\Casino-Game\bin\Debug\net5.0\Casino-Game.exe
+C:\Source\Repos\Casino-Game\bin\Debug\net5.0\Casino-Game.deps.json
+C:\Source\Repos\Casino-Game\bin\Debug\net5.0\Casino-Game.runtimeconfig.json
+C:\Source\Repos\Casino-Game\bin\Debug\net5.0\Casino-Game.runtimeconfig.dev.json
+C:\Source\Repos\Casino-Game\bin\Debug\net5.0\Casino-Game.dll
+C:\Source\Repos\Casino-Game\bin\Debug\net5.0\ref\Casino-Game.dll
+C:\Source\Repos\Casino-Game\bin\Debug\net5.0\Casino-Game.pdb
+C:\Source\Repos\Casino-Game\obj\Debug\net5.0\Casino-Game.csprojAssemblyReference.cache
+C:\Source\Repos\Casino-Game\obj\Debug\net5.0\Casino-Game.GeneratedMSBuildEditorConfig.editorconfig
+C:\Source\Repos\Casino-Game\obj\Debug\net5.0\Casino-Game.AssemblyInfoInputs.cache
+C:\Source\Repos\Casino-Game\obj\Debug\net5.0\Casino-Game.AssemblyInfo.cs
+C:\Source\Repos\Casino-Game\obj\Debug\net5.0\Casino-Game.csproj.CoreCompileInputs.cache
+C:\Source\Repos\Casino-Game\obj\Debug\net5.0\Casino-Game.dll
+C:\Source\Repos\Casino-Game\obj\Debug\net5.0\ref\Casino-Game.dll
+C:\Source\Repos\Casino-Game\obj\Debug\net5.0\Casino-Game.pdb
+C:\Source\Repos\Casino-Game\obj\Debug\net5.0\Casino-Game.genruntimeconfig.cache
