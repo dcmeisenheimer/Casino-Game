@@ -145,36 +145,44 @@ namespace Casino_Game
         }
         public static void SlotMachine(ref int gamesWon, ref int gamesLost, ref int gamesPlayed, ref int gil, ref string userInput)
         {
-            
-            SlotMachineRules();
-            gamesPlayed++; //updates games played for leaderboard
-            System.Console.WriteLine("You currently have " + gil + " gils"); 
-            System.Console.WriteLine("How many gills would you like to bet?");
-            int userBet = int.Parse(Console.ReadLine());
-
-            if (userBet > gil) //checks is user bet over current gil 
+            try //used so if wrong data type is submited it tells user
             {
-                System.Console.WriteLine("Sorry bet exceeds gil amount currently stored..." + "\nReturning to Menu");
-                System.Console.WriteLine("Press any key to return to menu");
-                Console.ReadKey();
+                SlotMachineRules();
+                gamesPlayed++; //updates games played for leaderboard
+                System.Console.WriteLine("You currently have " + gil + " gils"); 
+                System.Console.WriteLine("How many gills would you like to bet?");
+                int userBet = int.Parse(Console.ReadLine());
+
+                if (userBet > gil) //checks is user bet over current gil 
+                {
+                    System.Console.WriteLine("Sorry bet exceeds gil amount currently stored..." + "\nReturning to Menu");
+                    System.Console.WriteLine("Press any key to return to menu");
+                    Console.ReadKey();
+                }
+                else
+                {
+                    List<string> words = new List<string>{"Elephant", "Computer", "Football", "Resume", "Capstone", "Crimson"}; //a list containing the selected words
+                    var random = new Random();
+
+                    int word1 = random.Next(words.Count); //3 random variables that choose a word from the list
+                    int word2 = random.Next(words.Count);
+                    int word3 = random.Next(words.Count);
+
+                    System.Console.Write(words[word1] + "   ");
+                    Thread.Sleep(1000); //i used threading to make a delay between each word like a real slot machine.
+                    System.Console.Write(words[word2] + "   ");
+                    Thread.Sleep(1000);
+                    System.Console.WriteLine(words[word3]);
+                    Thread.Sleep(1000);
+                    SlotPoints(word1, word2, word3, ref gil, ref gamesPlayed, ref gamesLost, ref gamesWon, userBet); 
+                    PlayAgainDecision(ref gamesWon, ref gamesLost, ref gamesPlayed, ref gil, ref userInput);
+                }
             }
-            else
+            catch (System.Exception e)
             {
-                List<string> words = new List<string>{"Elephant", "Computer", "Football", "Resume", "Capstone", "Crimson"}; //a list containing the selected words
-                var random = new Random();
-
-                int word1 = random.Next(words.Count); //3 random variables that choose a word from the list
-                int word2 = random.Next(words.Count);
-                int word3 = random.Next(words.Count);
-
-                System.Console.Write(words[word1] + "   ");
-                Thread.Sleep(1000); //i used threading to make a delay between each word like a real slot machine.
-                System.Console.Write(words[word2] + "   ");
-                Thread.Sleep(1000);
-                System.Console.WriteLine(words[word3]);
-                Thread.Sleep(1000);
-                SlotPoints(word1, word2, word3, ref gil, ref gamesPlayed, ref gamesLost, ref gamesWon, userBet); 
-                PlayAgainDecision(ref gamesWon, ref gamesLost, ref gamesPlayed, ref gil, ref userInput);
+                
+                System.Console.WriteLine(e.Message);
+                Thread.Sleep(1500);
             }
         }
         public static void SlotPoints(int word1, int word2, int word3, ref int gil, ref int gamesPlayed, ref int gamesLost, ref int gamesWon, int userBet) //method that calculates how many words match
@@ -265,41 +273,48 @@ namespace Casino_Game
         }
         public static void UserGuess(ref int gil, int sum, ref int gamesWons, ref int gamesLost) //method to guess what number it is.
         {
-            int userDieGuess = 0;
-            int count = 1;
-            System.Console.WriteLine("The dice have been rolled what is your guess for the total amount?");
-            userDieGuess = int.Parse(Console.ReadLine());
-            while(userDieGuess!= sum && count != 4) //while loop that keeps going as long 4 guesses have not been used and they didnt already guess correctly
+            try
             {
-                count++;
-                DieSumChecker(userDieGuess, sum); //checks if they match method
+                int userDieGuess = 0;
+                int count = 1;
                 System.Console.WriteLine("The dice have been rolled what is your guess for the total amount?");
-                userDieGuess = int.Parse(Console.ReadLine()); //keeps the variable updated
+                userDieGuess = int.Parse(Console.ReadLine());
+                while(userDieGuess!= sum && count != 4) //while loop that keeps going as long 4 guesses have not been used and they didnt already guess correctly
+                {
+                    count++;
+                    DieSumChecker(userDieGuess, sum); //checks if they match method
+                    System.Console.WriteLine("The dice have been rolled what is your guess for the total amount?");
+                    userDieGuess = int.Parse(Console.ReadLine()); //keeps the variable updated
+                }
+                if (userDieGuess == sum) //if user guesses correctly they get 50 gil
+                {
+                    gamesWons++;
+                    gil = gil + 50;
+                    System.Console.WriteLine("You guessed correctly good job!");
+                    System.Console.WriteLine("You won 50 gil!");
+                    System.Console.WriteLine("You have a total gil of " + gil);
+                    System.Console.WriteLine("Press any key to continue...");
+                    Console.ReadKey();
+                    
+                }
+                else //if user doesnt guess correctly they lose 12 gil
+                {
+                    gil = gil - 12;
+                    gamesLost++;
+                    System.Console.WriteLine("Sorry you lost!");
+                    System.Console.WriteLine("The correct number was " + sum);
+                    System.Console.WriteLine("You lost 12 gil!");
+                    System.Console.WriteLine("You have a total gil of " + gil);
+                    System.Console.WriteLine("Press any key to continue...");
+                    Console.ReadKey();
+                    
+                }
             }
-            if (userDieGuess == sum) //if user guesses correctly they get 50 gil
+            catch (System.Exception e)
             {
-                gamesWons++;
-                gil = gil + 50;
-                System.Console.WriteLine("You guessed correctly good job!");
-                System.Console.WriteLine("You won 50 gil!");
-                System.Console.WriteLine("You have a total gil of " + gil);
-                System.Console.WriteLine("Press any key to continue...");
-                Console.ReadKey();
                 
+                System.Console.WriteLine(e.Message);
             }
-            else //if user doesnt guess correctly they lose 12 gil
-            {
-                gil = gil - 12;
-                gamesLost++;
-                System.Console.WriteLine("Sorry you lost!");
-                System.Console.WriteLine("The correct number was " + sum);
-                System.Console.WriteLine("You lost 12 gil!");
-                System.Console.WriteLine("You have a total gil of " + gil);
-                System.Console.WriteLine("Press any key to continue...");
-                Console.ReadKey();
-                
-            }
-            
         }
         public static void DieSumChecker(int userDieGuess, int sum) //checks to see if teh guess matches the sum
         {
@@ -321,7 +336,7 @@ namespace Casino_Game
         {
             System.Console.WriteLine("The game will choose a random number from 1-36" + 
             "\n1-10 even are black, 1-10 odd are red" + 
-            "\n11-18 evem are red, 11-18 odd are black" + 
+            "\n11-18 even are red, 11-18 odd are black" + 
             "\n19-28 even are black, 19-28 odd are red" + 
             "\n29-36 even are red, 29-36 odd are black" +
             "\nYou have to guess a color red or black" + 
@@ -332,34 +347,44 @@ namespace Casino_Game
         }
         public static void RouletteWheel(ref int gamesWon, ref int gamesLost, ref int gamesPlayed, ref int gil, ref string userInput)
         {
-            RouletteRules();
-            gamesPlayed++;
-            int [] red = new int []{1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36}; //arrays to store the numbers of each red number
-            int [] black = new int []{2,4,6,8,10,11,13,15,17,20,22,24,26,28,29,31,33,35};//arrays to store the numbers of each black number
-
-            Random rnd = new Random();
-
-            int selection = rnd.Next(1,37); //random number between 1 and 36
-
-            int gilBet = GilBet(ref gil); //method to check if bet exceeds gil balance
-            
-            if (gilBet > gil)
+            try
             {
-                System.Console.WriteLine("Sorry bet exceeds gil amount currently stored..." + "\nReturning to Menu");
-                System.Console.WriteLine("Press any key to return to menu");
-                Console.ReadKey();
+                RouletteRules();
+                gamesPlayed++;
+                int [] red = new int []{1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36}; //arrays to store the numbers of each red number
+                int [] black = new int []{2,4,6,8,10,11,13,15,17,20,22,24,26,28,29,31,33,35};//arrays to store the numbers of each black number
+
+                Random rnd = new Random();
+
+                int selection = rnd.Next(1,37); //random number between 1 and 36
+
+                int gilBet = GilBet(ref gil); //method to check if bet exceeds gil balance
+                
+                if (gilBet > gil) //tells user he doesnt have enough gil
+                {
+                    System.Console.WriteLine("Sorry bet exceeds gil amount currently stored..." + "\nReturning to Menu");
+                    System.Console.WriteLine("Press any key to return to menu");
+                    Console.ReadKey();
+                }
+                else
+                {
+                    string userBet = RouletteBet(); //varaible to store what color user selects
+                    string finalDecision = RouletteDecision(red, black, selection); //tells user the color of random number
+                    BetMath(userBet, finalDecision, gilBet, ref gil, ref gamesWon, ref gamesLost); //how much user won
+                    PlayAgainDecision(ref gamesWon, ref gamesLost, ref gamesPlayed, ref gil, ref userInput);
+                }
             }
-            else
+            catch (System.Exception e)
             {
-                string userBet = RouletteBet(); //varaible to store what color user selects
-                string finalDecision = RouletteDecision(red, black, selection); //tells user the color of random number
-                BetMath(userBet, finalDecision, gilBet, ref gil, ref gamesWon, ref gamesLost); //how much user won
-                PlayAgainDecision(ref gamesWon, ref gamesLost, ref gamesPlayed, ref gil, ref userInput);
+                
+                System.Console.WriteLine(e.Message);
+                Thread.Sleep(1500);
             }
 
         }
         static int GilBet(ref int gil) //checks if bet exceeds gill balance
-        {
+        {   
+            
             System.Console.WriteLine("You currently have " + gil + " gils");
             System.Console.WriteLine("How many gils would you like to bet");
             int gilBet = int.Parse(Console.ReadLine());
@@ -419,22 +444,31 @@ namespace Casino_Game
         }
         public static void BlackJack(ref int gamesWon, ref int gamesLost, ref int gamesPlayed, ref int gil, ref string userInput)
         {
-            BlackJackRules(); 
-            gamesPlayed++;
-            int gilBet = GilBet(ref gil); //checks if user amount is bigger than gil balance
-            if (gilBet > gil)
+            try
             {
-                System.Console.WriteLine("Sorry bet exceeds gil amount currently stored..." + "\nReturning to Menu");
-                System.Console.WriteLine("Press any key to return to menu");
-                Console.ReadKey();
+                BlackJackRules(); 
+                gamesPlayed++;
+                int gilBet = GilBet(ref gil); //checks if user amount is bigger than gil balance
+                if (gilBet > gil)
+                {
+                    System.Console.WriteLine("Sorry bet exceeds gil amount currently stored..." + "\nReturning to Menu");
+                    System.Console.WriteLine("Press any key to return to menu");
+                    Console.ReadKey();
+                }
+                else
+                {
+                    int userSum = UserTurn(); //variable to store total amount of user cards
+                    int cpuSum = CpuTurn();
+                    userSum = HitMe(ref userSum);
+                    WhoWins(userSum, cpuSum, ref gamesLost, ref gamesWon, ref gil, gilBet);
+                    PlayAgainDecision(ref gamesWon, ref gamesLost, ref gamesPlayed, ref gil, ref userInput);
+                }
             }
-            else
+            catch (System.Exception e)
             {
-                int userSum = UserTurn(); //variable to store total amount of user cards
-                int cpuSum = CpuTurn();
-                userSum = HitMe(ref userSum);
-                WhoWins(userSum, cpuSum, ref gamesLost, ref gamesWon, ref gil, gilBet);
-                PlayAgainDecision(ref gamesWon, ref gamesLost, ref gamesPlayed, ref gil, ref userInput);
+                
+                System.Console.WriteLine(e.Message);
+                Thread.Sleep(1500);
             }
         }
         public static void BlackJackRules() //rules of blackjack display
@@ -455,8 +489,8 @@ namespace Casino_Game
         public static int UserTurn()
         {
             Random rnd = new Random(); //random number generator for two cards
-            int cardOne = rnd.Next(1, 11);
-            int cardTwo = rnd.Next(1,11);
+            int cardOne = rnd.Next(1, 12);
+            int cardTwo = rnd.Next(1, 12);
             System.Console.WriteLine("Your first card is " + cardOne);
             System.Console.WriteLine("Your second card is " + cardTwo);
             AceFlip(ref cardOne,ref cardTwo); //method to allow user to flip aces
@@ -508,8 +542,8 @@ namespace Casino_Game
         public static int CpuTurn() //dealers random number generator method
         {
             Random rnd = new Random();
-            int cardOne = rnd.Next(1, 11); //storing two of cpus random cards
-            int cardTwo = rnd.Next(1,11);
+            int cardOne = rnd.Next(1, 12); //storing two of cpus random cards
+            int cardTwo = rnd.Next(1,12);
             int sum = cardOne + cardTwo; 
             if (cardOne == 1 && sum <= 17) //tells cpu to flip ace if he is below 17
             {
@@ -529,7 +563,7 @@ namespace Casino_Game
         public static void CpuHitMe(ref int sum)
         {
             Random rnd = new Random(); //random number generator to keep hitting cards until 17 is met
-            int cpuHit = rnd.Next(1,11);
+            int cpuHit = rnd.Next(1,12);
             if (cpuHit == 11 && sum > 21)
             {
                 sum = sum - cpuHit + 1;
@@ -562,7 +596,7 @@ namespace Casino_Game
                 if(userSum <= 21 && keepHitting == true && userChoice.ToLower() == "hit")
                 {
                     Random rnd = new Random(); //random number generator for cards after 2
-                    int hit = rnd.Next(1,11);
+                    int hit = rnd.Next(1,12);
                     AceFlip(ref hit); //checks if user has an ace and wants to flip it
                     userSum = userSum + hit; //update user sum 
                     System.Console.WriteLine("Card number is " + hit); 
